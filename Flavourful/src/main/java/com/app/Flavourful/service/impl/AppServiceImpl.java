@@ -40,7 +40,10 @@ public class AppServiceImpl implements AppService {
         int result = repository.updateOrderStatusByOrderId(ApplicationCodes.fromCode(orderStatus).name(), orderId);
         if (result > 0) {
             message = "Order with id" + orderId + ", Status: " + ApplicationCodes.fromCode(orderStatus);
-            kafkaTemplate.send(AppConstant.FLAVOURFUL_ORDER_UPDATE, "Order with id" + orderId + ", Status:" + ApplicationCodes.fromCode(orderStatus));
+            kafkaTemplate.send(AppConstant.FLAVOURFUL_ORDER_UPDATE, "Order with id" + orderId + ", Status: " + ApplicationCodes.fromCode(orderStatus));
+        }
+        if(orderStatus==4){
+            kafkaTemplate.send(AppConstant.FLAVOURFUL_DELIVERY_UPDATE,   orderId + ":" + orderStatus);
         }
         return message;
     }

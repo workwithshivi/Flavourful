@@ -19,7 +19,6 @@ public class KafkaConfig {
     public void getOrderNotification(String orderDataJSON) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-
         OrderData orderData = objectMapper.readValue(orderDataJSON, OrderData.class);
         System.out.println(orderData);
         appService.sendOrderUpdates(orderData);
